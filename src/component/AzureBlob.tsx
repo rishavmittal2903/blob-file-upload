@@ -49,7 +49,10 @@ const uploadFileToBlob = async (file:any) => {
   const containerClient = blobService.getContainerClient(containerName);
 
   // upload file
-  await createBlobInContainer(containerClient, file);
+  for(let item of file)
+  {
+  await createBlobInContainer(containerClient, item);
+  }
 
   // get list of blobs in container
   return getBlobsInContainer(containerClient);

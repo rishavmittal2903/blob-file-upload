@@ -17,7 +17,7 @@ const FileUpload = () => {
 
   const onFileChange = (event:any) => {
     // capture file into state
-    setFileSelected(event.target.files[0]);
+    setFileSelected(event.target.files);
   };
 
   const onFileUpload = async () => {
@@ -39,7 +39,7 @@ const FileUpload = () => {
   // display form
   const DisplayForm = () => (
     <div>
-      <input type="file" onChange={onFileChange} key={inputKey || ''} />
+      <input type="file" onChange={onFileChange} multiple key={inputKey || ''} />
       <button type="submit" onClick={onFileUpload}>
         Upload!
       </button>
