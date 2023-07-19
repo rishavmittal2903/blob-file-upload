@@ -1,7 +1,7 @@
-import FileUpload from "./component/FileUpload";
+import Layout from "./component/Layout/Layout";
 
 const App = () => {
-  return <FileUpload />;
+  return <Layout />;
 };
 
 export default App;

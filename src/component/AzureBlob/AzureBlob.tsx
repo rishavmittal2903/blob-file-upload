@@ -1,8 +1,5 @@
 import { BlobServiceClient} from '@azure/storage-blob';
-
-const sasToken = process.env.REACT_APP_SAS_TOKEN;
-const containerName = `fileupload`;
-const storageAccountName = process.env.REACT_APP_ACCOUNT_NAME;
+import { blobClientUrl, blobServiceUrl, containerName, sasToken, storageAccountName } from '../../constants/ApiEndpoint';
 
 // Feature flag - disable storage feature to app if not configured
 export const isStorageConfigured = () => {
@@ -18,7 +15,7 @@ const getBlobsInContainer = async (containerClient:any) => {
   for await (const blob of containerClient.listBlobsFlat()) {
     // if image is public, just construct URL
     returnedBlobUrls.push(
-      `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blob.name}`
+      blobClientUrl(blob.name)
     );
   }
 
@@ -43,7 +40,7 @@ const uploadFileToBlob = async (file:any) => {
   if (!file) return [];
 
   const blobService = new BlobServiceClient(
-    `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    blobServiceUrl
   );
   // get Container - full public read access
   const containerClient = blobService.getContainerClient(containerName);

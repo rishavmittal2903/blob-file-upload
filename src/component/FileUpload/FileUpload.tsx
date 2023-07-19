@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import uploadFileToBlob, { isStorageConfigured } from './AzureBlob';
-import { getFileName } from '../utility/utility';
+import uploadFileToBlob, { isStorageConfigured } from '../AzureBlob/AzureBlob';
+import { getFileName } from '../../utility/utility';
 
 const storageConfigured = isStorageConfigured();
 
@@ -39,7 +39,7 @@ const FileUpload = () => {
   // display form
   const DisplayForm = () => (
     <div>
-      <input type="file" onChange={onFileChange} multiple key={inputKey || ''} />
+      <input type="file"  onChange={onFileChange} multiple key={inputKey || ''} />
       <button type="submit" onClick={onFileUpload}>
         Upload!
       </button>
