@@ -1,8 +1,8 @@
 import { BlobServiceClient} from '@azure/storage-blob';
-import { blobClientUrl, blobServiceUrl, containerName, sasToken, storageAccountName } from '../../constants/ApiEndpoint';
+import { blobClientUrl, blobServiceUrl, containerName, storageAccountName } from '../../constants/ApiEndpoint';
 
 // Feature flag - disable storage feature to app if not configured
-export const isStorageConfigured = () => {
+export const isStorageConfigured = (sasToken:string) => {
   return !((!storageAccountName || !sasToken));
 };
 
@@ -36,11 +36,11 @@ const createBlobInContainer = async (containerClient:any, file:any) => {
   await blobClient.setMetadata({UserName : 'developer'});
 };
 
-const uploadFileToBlob = async (file:any) => {
+const uploadFileToBlob = async (file:any, sasToken:string) => {
   if (!file) return [];
 
   const blobService = new BlobServiceClient(
-    blobServiceUrl
+    blobServiceUrl(sasToken)
   );
   // get Container - full public read access
   const containerClient = blobService.getContainerClient(containerName);

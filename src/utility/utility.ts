@@ -1,14 +1,19 @@
 import { BlobServiceClient } from "@azure/storage-blob";
+import axios from "axios";
 import { FileInfo } from "../component/FileInfo/FileInfo";
-import { blobServiceUrl, containerName } from "../constants/ApiEndpoint";
+import {
+  blobServiceUrl,
+  containerName,
+  getSaSTokenUrl,
+} from "../constants/ApiEndpoint";
 
 export const getFileName = (item: any): string => {
   const items: Array<string> = item?.split("/");
   return items[items.length - 1];
 };
 
-export const getBlobsInContainer = async () => {
-  const blobService = new BlobServiceClient(blobServiceUrl);
+export const getBlobsInContainer = async (sasToken: string) => {
+  const blobService = new BlobServiceClient(blobServiceUrl(sasToken));
   // get Container - full public read access
   const containerClient = blobService.getContainerClient(containerName);
 
@@ -94,4 +99,27 @@ export const getTimeInFormat = (seconds: any) => {
     seconds = seconds + " seconds";
   }
   return seconds;
+};
+
+export const isFileExists = (BlobData: any, files: any) => {
+  if (BlobData && files) {
+    const fileNames: Array<string> = Object.values(files)?.map((file: any) =>
+      file?.name?.toLowerCase()
+    );
+    const blobFileNames: Array<string> = BlobData?.map((blob: any) =>
+      blob?.Name?.toLowerCase()
+    );
+    return fileNames.filter((file: string) => blobFileNames.includes(file));
+  }
+  return [];
+};
+
+export const getSaSTokenForBlob = async () => {
+  try {
+    const response = await axios.get(getSaSTokenUrl);
+    return response?.data;
+  } catch (err) {
+    console.log("error", err);
+    return "";
+  }
 };

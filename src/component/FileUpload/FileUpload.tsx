@@ -2,9 +2,10 @@ import { useState } from 'react';
 import uploadFileToBlob, { isStorageConfigured } from '../AzureBlob/AzureBlob';
 import { getFileName } from '../../utility/utility';
 
-const storageConfigured = isStorageConfigured();
 
-const FileUpload = () => {
+const FileUpload = (sasToken:string) => {
+  const storageConfigured = isStorageConfigured(sasToken);
+
   // all blobs in container
   const [blobList, setBlobList] = useState([]);
 
@@ -25,7 +26,7 @@ const FileUpload = () => {
     setUploading(true);
 
     // *** UPLOAD TO AZURE STORAGE ***
-    const blobsInContainer:any = await uploadFileToBlob(fileSelected);
+    const blobsInContainer:any = await uploadFileToBlob(fileSelected,sasToken);
 
     // prepare UI for results
     setBlobList(blobsInContainer);

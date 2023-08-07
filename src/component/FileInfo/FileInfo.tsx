@@ -8,16 +8,18 @@ export class FileInfo {
   fileObj:IFileUpload;
   value = 0;
   controller:any;
-  constructor(message: File, fileObj:IFileUpload) {
+  sasToken='';
+  constructor(message: File, fileObj:IFileUpload, sasToken:string) {
     this.file = message;
     this.fileObj=fileObj;
     this.controller= new AbortController();
+    this.sasToken=sasToken;
   }
 
-  async upload() {
+  async upload(sasToken:string) {
     try {
       const blobServiceClient = new BlobServiceClient(
-        blobServiceUrl,
+        blobServiceUrl(sasToken),
         new AnonymousCredential()
       );
 

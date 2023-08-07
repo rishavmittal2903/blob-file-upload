@@ -9,32 +9,34 @@ const DocumentList = (props: IProps) => {
   return (
     <div className="document">
       <div className="myFileText">My Files</div>
-      
-        <table>
+
+      <table>
+        <thead>
           <tr>
             <th>
               <AiTwotoneFileExcel />
             </th>
-            {documentList.columns.map((column: IColumn) => (
-              <th>{column.label}</th>
+            {documentList.columns.map((column: IColumn, columnKey: number) => (
+              <th key={columnKey}>{column.label}</th>
             ))}
           </tr>
-
-           
-            {documentList?.rows.map((row: IRow) => {
-              return(
-
-              <tr>
-                 <td>
-              <AiTwotoneFileExcel />
-            </td>
-              <td>{row['Name']}</td>
-              <td>{row['CreatedOn']}</td>
-              <td>{row['ModifiedOn']}</td>
-              <td>{row['Size']}</td>
+        </thead>
+        <tbody>
+          {documentList?.rows.map((row: IRow, keyNumber: number) => {
+            return (
+              <tr key={`${row["Name"]}_${keyNumber}`}>
+                <td>
+                  <AiTwotoneFileExcel />
+                </td>
+                <td>{row["Name"]}</td>
+                <td>{row["CreatedOn"]}</td>
+                <td>{row["ModifiedOn"]}</td>
+                <td>{row["Size"]}</td>
               </tr>
-            )})}
-        </table>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { IColumn } from "../interfaces/IFileTable";
 
 export const fileTableColumns: Array<IColumn> = [
