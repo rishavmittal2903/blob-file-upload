@@ -14,6 +14,7 @@ import UploadingList from "../UploadingList/UploadingList";
 import { fileTableColumns } from "../../constants/AppContants";
 import { IFileTable } from "../../interfaces/IFileTable";
 import Modal from "../Modal/Modal";
+import DragDropComponent from "../DragDropComponent/DragDropComponent";
 let blobFileData:Array<any>=[];
 interface IProps{
   sasToken:string
@@ -72,7 +73,7 @@ const Layout = (props:IProps) => {
       }
   }
   const fileUploadHandler = (event: any) => {
-    const files = event?.target.files;
+    const files = event?.length ? event : event?.target.files;
     setFilesData(files);
     const fileExists:Array<string>= isFileExists(blobFileData, files);
     if(!fileExists?.length)
@@ -99,13 +100,15 @@ const Layout = (props:IProps) => {
     toggleModal((prev) => !prev);
   };
   return (
+    <DragDropComponent handleFiles={fileUploadHandler}>
+
     <div className="main">
       <Header
         fileUploadHandler={fileUploadHandler}
         isUploaded={showModal || isFilesUploadingCompleted(fileData)}
         showUploadedItems={showUploadedItems}
       />
-      <DocumentList documentList={documentList} />
+      <DocumentList documentList={documentList}/>
       {isVisible && !showModal && (
         <UploadingList
           fileUploadedData={fileData}
@@ -123,6 +126,7 @@ const Layout = (props:IProps) => {
         />
       )}
     </div>
+    </DragDropComponent>
   );
 };
 

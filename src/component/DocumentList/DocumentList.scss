@@ -1,24 +1,31 @@
 table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  td, th {
-    border-bottom: 1px solid #dddddd8c;
-    text-align: left;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-  }
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
 
-  .document{
-    margin-top: 3rem;
-  }
+td,
+th {
+  border-bottom: 1px solid #dddddd8c;
+  text-align: left;
+  padding: 8px;
+}
 
-  .myFileText{
-    margin-bottom: 1rem;
-    font-size: 20px;
-    font-family: sans-serif;
-  }
+tr:nth-child(even) {
+}
+
+.document {
+  margin-top: 3rem;
+}
+
+.myFileText {
+  margin-bottom: 1rem;
+  font-size: 20px;
+  font-family: sans-serif;
+}
+
+.downloadFile {
+  cursor: pointer;
+  color: #5b99e3;
+  text-decoration: underline;
+}

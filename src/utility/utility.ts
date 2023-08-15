@@ -4,6 +4,7 @@ import { FileInfo } from "../component/FileInfo/FileInfo";
 import {
   blobServiceUrl,
   containerName,
+  getDownloadUrl,
   getSaSTokenUrl,
 } from "../constants/ApiEndpoint";
 
@@ -27,6 +28,7 @@ export const getBlobsInContainer = async (sasToken: string) => {
     if (blob && blob?.properties) {
       returnedBlobData.push({
         Name: blob.name,
+        type: blob.properties?.contentType,
         CreatedOn: new Date(blob?.properties?.createdOn || "").toLocaleString(),
         ModifiedOn: new Date(
           blob?.properties?.lastModified || ""
@@ -113,10 +115,45 @@ export const isFileExists = (BlobData: any, files: any) => {
   }
   return [];
 };
-
+const downloadFromStream = (
+  resultByte: any,
+  type: string,
+  fileName: string
+) => {
+  var blob = new Blob([resultByte], { type: type });
+  var link = document.createElement("a");
+  link.href = window.URL.createObjectURL(blob);
+  link.download = fileName;
+  link.click();
+};
 export const getSaSTokenForBlob = async () => {
   try {
     const response = await axios.get(getSaSTokenUrl);
+    return response?.data;
+  } catch (err) {
+    console.log("error", err);
+    return "";
+  }
+};
+
+export const downloadBlobToFile = async (
+  sasToken: string,
+  blobName: string,
+  type?: string
+) => {
+  const blobService = new BlobServiceClient(blobServiceUrl(sasToken));
+  // get Container - full public read access
+  const containerClient = blobService.getContainerClient(containerName);
+  const blobClient = await containerClient.getBlobClient(blobName);
+
+  const downloadedFile = await blobClient.downloadToFile(blobName);
+  console.log(`download of ${JSON.stringify(downloadedFile)} success`);
+};
+
+export const downloadFileToBuffer = async (blobName: string, type: string) => {
+  try {
+    const response = await axios.get(getDownloadUrl(blobName));
+    downloadFromStream(response?.data, type, blobName);
     return response?.data;
   } catch (err) {
     console.log("error", err);

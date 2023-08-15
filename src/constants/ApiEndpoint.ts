@@ -4,3 +4,4 @@ export const containerName:string= process.env.REACT_APP_CONTAINER_NAME || '';
 export const blobClientUrl=(blobName:string):string=>`https://${storageAccountName}.blob.core.windows.net/${containerName}/${blobName}`
 export const blobServiceUrl=(sasToken:string):string=> `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`;
 export const getSaSTokenUrl=`${baseUrl}/api/fileUplaod/getSaSToken`
+export const getDownloadUrl=(blobName:string)=>`${baseUrl}/api/fileUplaod/download/${blobName}`;
